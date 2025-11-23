@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма тренировки</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(135deg, #232526, #414345);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .group {
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        input[type="number"],
+        input[type="radio"] {
+            margin-top: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: #00c9ff;
+            font-size: 17px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form action="/categories" method="POST" class="container">
+        <h2>Подбор тренировки</h2>
+
+        <div class="group">
+            <h3>Где хотите заниматься?</h3>
+            <div class="options">
+                <label><input type="radio" name="place" value="Спортзал" required> Спортзал</label>
+                <label><input type="radio" name="place" value="Домашние условия"> Домашние условия</label>
+                <label><input type="radio" name="place" value="Смешанные условия"> Смешанные условия</label>
+                <label><input type="radio" name="place" value="На улице"> На улице</label>
+            </div>
+        </div>
+
+        <div class="group">
+            <h3>Укажите свой возраст</h3>
+            <input type="number" name="age" min="5" max="100" placeholder="Возраст" required>
+        </div>
+
+        <div class="group">
+            <h3>Укажите свой вес</h3>
+            <input type="number" name="weight" min="20" max="300" placeholder="Вес (кг)" required>
+        </div>
+
+        <div class="group">
+            <h3>Укажите свой рост</h3>
+            <input type="number" name="height" min="50" max="250" placeholder="Рост (см)" required>
+        </div>
+
+
+        <div class="group">
+            <h3>Выберите цель</h3>
+            <div class="options">
+                <label><input type="radio" name="goal" value="Похудение" required> Похудение</label>
+                <label><input type="radio" name="goal" value="Набор массы"> Набор массы</label>
+                <label><input type="radio" name="goal" value="Поддержание формы"> Поддержание формы</label>
+            </div>
+        </div>
+
+        <button type="submit">Далее</button>
+    </form>
+
+</body>
+</html>

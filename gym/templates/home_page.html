@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Головна — Тренувальний додаток</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#60a5fa;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background:linear-gradient(180deg,#071025 0%, #08142a 100%);color:#e6eef6;min-height:100vh}
+    .container{max-width:1100px;margin:28px auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    h1{margin:0;font-size:1.25rem}
+    nav{display:flex;gap:10px}
+    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:18px}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .small{color:var(--muted);font-size:0.9rem}
+
+    /* reminders */
+    .reminders{display:flex;flex-direction:column;gap:10px}
+    .reminder{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.08)}
+    .reminder .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+
+    /* program list */
+    .program-list{display:flex;flex-direction:column;gap:10px}
+    .prog-item{display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--card);border-radius:10px}
+
+    /* exercises */
+    .exercises{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    @media(max-width:600px){.exercises{grid-template-columns:1fr}}
+
+    .profile{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+    .avatar{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#1f2937,#111827);display:flex;align-items:center;justify-content:center;font-weight:700}
+
+    footer{margin-top:22px;text-align:center;color:var(--muted);font-size:0.9rem}
+    a{color:inherit}
+
+    /* quote */
+    .quote{font-style:italic;color:#cfe7ff}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Тренуйся краще — Головна</h1>
+        <div class="small">Режим харчування · Моя програма · Вправи · Техніка · Профіль</div>
+      </div>
+      <nav>
+        <button class="btn" onclick="openSection('nutrition')">Режим харчування</button>
+        <button class="btn" onclick="openSection('program')">Моя програма</button>
+        <button class="btn" onclick="openSection('exercises')">Вправи</button>
+        <button class="btn" onclick="openSection('profile')">Профіль</button>
+      </nav>
+    </header>
+
+    <main class="grid">
+      <section>
+        <div class="card">
+          <div class="section-title">
+            <strong>Нагадування</strong>
+            <div class="small" id="nowTime"></div>
+          </div>
+          <div class="reminders" id="reminders">
+            <!-- reminders populated by JS -->
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="card">
+          <div class="section-title"><strong>Случайна стаття — техніка виконання</strong><span class="small">Порада для вправи</span></div>
+          <div id="randomArticle" class="small" style="line-height:1.5"></div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="card">
+          <div class="section-title"><strong>Случайна цитата</strong><span class="small">Мотивація</span></div>
+          <div id="randomQuote" class="quote"></div>
+        </div>
+      </section>
+
+      <aside>
+        <div class="card profile">
+          <div style="display:flex;gap:12px;align-items:center;width:100%">
+            <div class="avatar">SK</div>
+            <div style="flex:1">
+              <div style="font-weight:700">Стас К.</div>
+              <div class="small">16 років · 180 см · 74 кг</div>
+            </div>
+            <div>
+              <button class="btn" onclick="openSection('profile')">Редагувати</button>
+            </div>
+          </div>
+          <hr style="width:100%;margin:10px 0;border-color:rgba(255,255,255,0.03)">
+          <div class="small">Короткий профіль: тут буде мінімум даних — настройки, мета та посилання на програму.</div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="card">
+          <div class="section-title"><strong>Моя програма</strong><button class="btn" onclick="openSection('program')">Переглянути</button></div>
+          <div class="program-list" id="programList">
+            <!-- program items populated by JS -->
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="card">
+          <div class="section-title"><strong>Вправи та техніка</strong><button class="btn" onclick="openSection('exercises')">Всі вправи</button></div>
+          <div class="exercises" id="exerciseTiles">
+            <!-- exercise tiles by JS -->
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="small">© 2025 Тренувальний додаток — Звичайна домашня сторінка. Налаштуйте дані в розділі профілю.</footer>
+  </div>
+
+  <script>
+    // Простий локальний контент (замість запиту на сервер)
+    const remindersData = [
+      {id:1,text:'Час поїсти — перекус (300 ккал)',type:'eat'},
+      {id:2,text:'Тренування: Груди та трицепс — 18:30',type:'workout'},
+      {id:3,text:'Пити воду — 250 мл',type:'drink'},
+    ];
+
+    const articles = [
+      'Правильна техніка віджимань: тримайте корпус прямо, опускайтесь до кута 90° в ліктях, контролюйте дихання.',
+      'Як правильно виконувати підтягування: повна амплітуда, не розгойдуйтесь, підтягуйтесь до підборіддя над перекладиною.',
+      'Техніка присідання без штанги: стопи на ширині плечей, коліна не виходять за пальці, сідниці назад.'
+    ];
+
+    const quotes = [
+      'Працюй тихо — нехай успіх шумить.',
+      'Крок за кроком — і ти станеш сильнішим, ніж учора.',
+      'Дисципліна сильніша за мотивацію.'
+    ];
+
+    const program = [
+      {name:'Пн — Спина, біцепс, плечі', progress:'0/5'},
+      {name:'Ср — Ноги, передпліччя', progress:'0/4'},
+      {name:'Пт — Груди, трицепс, плечі', progress:'0/6'},
+    ];
+
+    const exercises = [
+      {title:'Віджимання',desc:'Груди / трицепс'},
+      {title:'Підтягування',desc:'Спина / біцепс'},
+      {title:'Планка',desc:'Кор'},
+      {title:'Випади',desc:'Ноги'}
+    ];
+
+    function now(){
+      const d=new Date();
+      return d.toLocaleString('uk-UA', {hour:'2-digit',minute:'2-digit', day:'2-digit', month:'short'});
+    }
+
+    function renderReminders(){
+      const box=document.getElementById('reminders');box.innerHTML='';
+      remindersData.forEach(r=>{
+        const el=document.createElement('div');el.className='reminder';
+        el.innerHTML=`<div style="display:flex;flex-direction:column;flex:1"><div style="font-weight:600">${r.text}</div><div class="small">Тип: ${r.type}</div></div>`;
+        box.appendChild(el);
+      });
+    }
+
+    function renderProgram(){
+      const box=document.getElementById('programList');box.innerHTML='';
+      program.forEach(p=>{
+        const el=document.createElement('div');el.className='prog-item';
+        el.innerHTML=`<div><strong>${p.name}</strong><div class="small">${p.progress}</div></div><div><button class="btn" onclick="startProgram('${p.name}')">Запустити</button></div>`;
+        box.appendChild(el);
+      });
+    }
+
+    function renderExercises(){
+      const box=document.getElementById('exerciseTiles');box.innerHTML='';
+      exercises.forEach(e=>{
+        const el=document.createElement('div');el.className='card';el.style.padding='10px';
+        el.innerHTML=`<strong>${e.title}</strong><div class="small" style="margin-top:6px">${e.desc}</div>`;
+        box.appendChild(el);
+      });
+    }
+
+    function pickRandom(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+    function refreshRandom(){
+      document.getElementById('randomArticle').textContent = pickRandom(articles);
+      document.getElementById('randomQuote').textContent = '“' + pickRandom(quotes) + '”';
+    }
+
+    function startProgram(name){alert('Запуск програми: ' + name);}
+
+    function openSection(id){
+      alert('Відкриття розділу: ' + id + '. У реальному додатку це відкриє відповідну сторінку.');
+    }
+
+    // ініціалізація
+    document.getElementById('nowTime').textContent = now();
+    renderReminders(); renderProgram(); renderExercises(); refreshRandom();
+
+    // оновлюємо час та рандом кожні 60 секунд
+    setInterval(()=>{document.getElementById('nowTime').textContent = now();},60000);
+    setInterval(refreshRandom, 30000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Чат</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #0f172a;
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 700px;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            margin: 0 0 15px 0;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.8em;
+            color: #60a5fa;
+        }
+
+        .messages {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 5px;
+            margin-bottom: 20px;
+        }
+
+        .msg {
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            border-radius: 12px;
+            font-size: 1.05em;
+            line-height: 1.4;
+            width: fit-content;
+            max-width: 85%;
+            word-wrap: break-word;
+        }
+
+        .user {
+            background: #2563eb;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .assistant {
+            background: #334155;
+            color: #e2e8f0;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+
+        .workout-program {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            position: sticky;
+            bottom: 0;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            font-size: 1em;
+            background: #0f172a;
+            color: white;
+        }
+
+        input:focus {
+            border-color: #60a5fa;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 18px;
+            background: #3b82f6;
+            border: none;
+            color: white;
+            font-size: 1em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #2563eb;
+        }
+
+        @media (max-width: 480px) {
+            .msg {
+                max-width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <h2>Ваша программа</h2>
+
+    <div class="messages">
+
+        <div class="workout-program">
+            <pre>{{ program }}</pre>
+        </div>
+        <h3>Пересоздать</h3>
+        <h3>Продолжить</h3>
+
+        <!-- Пример сообщений:
+        <div class="msg user">Привет, как дела?</div>
+        <div class="msg assistant">Все отлично! Чем могу помочь?</div>
+        -->
+
+    </div>
+</div>
+
+</body>
+</html>

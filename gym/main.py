@@ -121,7 +121,13 @@ def chat():
 
 
     return render_template("chat.html", program=program)
-
-
+@app.route("/program",methods=["GET", "POST"])
+def program():
+    global program
+    print(program)
+    return render_template("my_program.html", program=program)
+@app.route("/home")
+def home():
+    return render_template("home_page.html")
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

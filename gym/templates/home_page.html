@@ -1,215 +1,80 @@
-<!doctype html>
-<html lang="uk">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Головна — Тренувальний додаток</title>
-  <style>
-    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#60a5fa;--glass:rgba(255,255,255,0.03)}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background:linear-gradient(180deg,#071025 0%, #08142a 100%);color:#e6eef6;min-height:100vh}
-    .container{max-width:1100px;margin:28px auto;padding:20px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    h1{margin:0;font-size:1.25rem}
-    nav{display:flex;gap:10px}
-    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
-
-    .grid{display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:18px}
-    @media(max-width:900px){.grid{grid-template-columns:1fr}}
-
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
-    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-    .small{color:var(--muted);font-size:0.9rem}
-
-    /* reminders */
-    .reminders{display:flex;flex-direction:column;gap:10px}
-    .reminder{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.08)}
-    .reminder .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
-
-    /* program list */
-    .program-list{display:flex;flex-direction:column;gap:10px}
-    .prog-item{display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--card);border-radius:10px}
-
-    /* exercises */
-    .exercises{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-    @media(max-width:600px){.exercises{grid-template-columns:1fr}}
-
-    .profile{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
-    .avatar{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#1f2937,#111827);display:flex;align-items:center;justify-content:center;font-weight:700}
-
-    footer{margin-top:22px;text-align:center;color:var(--muted);font-size:0.9rem}
-    a{color:inherit}
-
-    /* quote */
-    .quote{font-style:italic;color:#cfe7ff}
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2179616395540389"
+     crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="container">
-    <header>
-      <div>
-        <h1>Тренуйся краще — Головна</h1>
-        <div class="small">Режим харчування · Моя програма · Вправи · Техніка · Профіль</div>
-      </div>
-      <nav>
-        <button class="btn" onclick="openSection('nutrition')">Режим харчування</button>
-        <button class="btn" onclick="openSection('program')">Моя програма</button>
-        <button class="btn" onclick="openSection('exercises')">Вправи</button>
-        <button class="btn" onclick="openSection('profile')">Профіль</button>
-      </nav>
-    </header>
 
-    <main class="grid">
-      <section>
-        <div class="card">
-          <div class="section-title">
-            <strong>Нагадування</strong>
-            <div class="small" id="nowTime"></div>
-          </div>
-          <div class="reminders" id="reminders">
-            <!-- reminders populated by JS -->
-          </div>
-        </div>
+<body class="bg-[#0b0b0d] text-gray-200 font-['Inter'] min-h-screen flex flex-col">
 
-        <div style="height:14px"></div>
+  <!-- Top Bar (неоновый фитнес-градиент) -->
+  <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-[#1a1a1d] via-[#2b2730] to-[#1a1a1d] shadow-lg border-b border-[#262626] z-10">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-white tracking-wide select-none">
+        Fitness Mode
+      </h1>
+    </div>
+  </header>
 
-        <div class="card">
-          <div class="section-title"><strong>Случайна стаття — техніка виконання</strong><span class="small">Порада для вправи</span></div>
-          <div id="randomArticle" class="small" style="line-height:1.5"></div>
-        </div>
-
-        <div style="height:14px"></div>
-
-        <div class="card">
-          <div class="section-title"><strong>Случайна цитата</strong><span class="small">Мотивація</span></div>
-          <div id="randomQuote" class="quote"></div>
-        </div>
-      </section>
-
-      <aside>
-        <div class="card profile">
-          <div style="display:flex;gap:12px;align-items:center;width:100%">
-            <div class="avatar">SK</div>
-            <div style="flex:1">
-              <div style="font-weight:700">Стас К.</div>
-              <div class="small">16 років · 180 см · 74 кг</div>
-            </div>
-            <div>
-              <button class="btn" onclick="openSection('profile')">Редагувати</button>
-            </div>
-          </div>
-          <hr style="width:100%;margin:10px 0;border-color:rgba(255,255,255,0.03)">
-          <div class="small">Короткий профіль: тут буде мінімум даних — настройки, мета та посилання на програму.</div>
-        </div>
-
-        <div style="height:12px"></div>
-
-        <div class="card">
-          <div class="section-title"><strong>Моя програма</strong><button class="btn" onclick="openSection('program')">Переглянути</button></div>
-          <div class="program-list" id="programList">
-            <!-- program items populated by JS -->
-          </div>
-        </div>
-
-        <div style="height:12px"></div>
-
-        <div class="card">
-          <div class="section-title"><strong>Вправи та техніка</strong><button class="btn" onclick="openSection('exercises')">Всі вправи</button></div>
-          <div class="exercises" id="exerciseTiles">
-            <!-- exercise tiles by JS -->
-          </div>
-        </div>
-      </aside>
+  <!-- Main Content -->
+  <div class="flex flex-1 pt-20 pb-20 w-full mx-auto px-4">
+    <main style="width:80%;" class="flex-1 pr-4 overflow-y-auto" id="recomendations">
     </main>
-
-    <footer class="small">© 2025 Тренувальний додаток — Звичайна домашня сторінка. Налаштуйте дані в розділі профілю.</footer>
   </div>
 
-  <script>
-    // Простий локальний контент (замість запиту на сервер)
-    const remindersData = [
-      {id:1,text:'Час поїсти — перекус (300 ккал)',type:'eat'},
-      {id:2,text:'Тренування: Груди та трицепс — 18:30',type:'workout'},
-      {id:3,text:'Пити воду — 250 мл',type:'drink'},
-    ];
+  <!-- Bottom Navigation (тёмная + неоновая атмосфера) -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-[#121214] shadow-xl z-20 border-t border-[#2a2a2a] backdrop-blur-md">
+    <div class="flex justify-around py-3">
 
-    const articles = [
-      'Правильна техніка віджимань: тримайте корпус прямо, опускайтесь до кута 90° в ліктях, контролюйте дихання.',
-      'Як правильно виконувати підтягування: повна амплітуда, не розгойдуйтесь, підтягуйтесь до підборіддя над перекладиною.',
-      'Техніка присідання без штанги: стопи на ширині плечей, коліна не виходять за пальці, сідниці назад.'
-    ];
+      <!-- Питание -->
+      <button onclick="window.location.href = '/search'" 
+              class="flex flex-col items-center text-gray-400 hover:text-pink-500 transition transform hover:scale-110">
+        <svg class="h-7 w-7 drop-shadow-[0_0_6px_rgba(255,0,128,0.6)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 3h16M4 8h16M4 13h16M4 18h16" />
+        </svg>
+        <span class="text-xs mt-1">Питание</span>
+      </button>
 
-    const quotes = [
-      'Працюй тихо — нехай успіх шумить.',
-      'Крок за кроком — і ти станеш сильнішим, ніж учора.',
-      'Дисципліна сильніша за мотивацію.'
-    ];
+      <!-- Моя программа -->
+      <button onclick="window.location.href = '/create'" 
+              class="flex flex-col items-center text-gray-400 hover:text-indigo-500 transition transform hover:scale-110">
+        <svg class="h-7 w-7 drop-shadow-[0_0_6px_rgba(99,102,241,0.6)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 5h12M9 12h12M9 19h12M5 5h.01M5 12h.01M5 19h.01" />
+        </svg>
+        <span class="text-xs mt-1">Моя программа</span>
+      </button>
 
-    const program = [
-      {name:'Пн — Спина, біцепс, плечі', progress:'0/5'},
-      {name:'Ср — Ноги, передпліччя', progress:'0/4'},
-      {name:'Пт — Груди, трицепс, плечі', progress:'0/6'},
-    ];
+      <!-- Упражнения -->
+      <button onclick="window.location.href = '/messages'" 
+              class="flex flex-col items-center text-gray-400 hover:text-green-500 transition transform hover:scale-110">
+        <svg class="h-7 w-7 drop-shadow-[0_0_6px_rgba(0,255,128,0.6)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M6 13V7a4 4 0 118 0v6M6 13h8M6 13l-2 4m10-4l2 4" />
+        </svg>
+        <span class="text-xs mt-1">Упражнения</span>
+      </button>
 
-    const exercises = [
-      {title:'Віджимання',desc:'Груди / трицепс'},
-      {title:'Підтягування',desc:'Спина / біцепс'},
-      {title:'Планка',desc:'Кор'},
-      {title:'Випади',desc:'Ноги'}
-    ];
+      <!-- Профиль -->
+      <button onclick="window.location.href = '/us_profile'" 
+              class="flex flex-col items-center text-gray-400 hover:text-purple-500 transition transform hover:scale-110">
+        <svg class="h-7 w-7 drop-shadow-[0_0_6px_rgba(128,0,255,0.6)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 12a5 5 0 100-10 5 5 0 000 10zm7 10H5a7 7 0 0114 0z" />
+        </svg>
+        <span class="text-xs mt-1">Профиль</span>
+      </button>
 
-    function now(){
-      const d=new Date();
-      return d.toLocaleString('uk-UA', {hour:'2-digit',minute:'2-digit', day:'2-digit', month:'short'});
-    }
+    </div>
+  </nav>
 
-    function renderReminders(){
-      const box=document.getElementById('reminders');box.innerHTML='';
-      remindersData.forEach(r=>{
-        const el=document.createElement('div');el.className='reminder';
-        el.innerHTML=`<div style="display:flex;flex-direction:column;flex:1"><div style="font-weight:600">${r.text}</div><div class="small">Тип: ${r.type}</div></div>`;
-        box.appendChild(el);
-      });
-    }
+  <script src="/socket.io/socket.io.js"></script>
 
-    function renderProgram(){
-      const box=document.getElementById('programList');box.innerHTML='';
-      program.forEach(p=>{
-        const el=document.createElement('div');el.className='prog-item';
-        el.innerHTML=`<div><strong>${p.name}</strong><div class="small">${p.progress}</div></div><div><button class="btn" onclick="startProgram('${p.name}')">Запустити</button></div>`;
-        box.appendChild(el);
-      });
-    }
-
-    function renderExercises(){
-      const box=document.getElementById('exerciseTiles');box.innerHTML='';
-      exercises.forEach(e=>{
-        const el=document.createElement('div');el.className='card';el.style.padding='10px';
-        el.innerHTML=`<strong>${e.title}</strong><div class="small" style="margin-top:6px">${e.desc}</div>`;
-        box.appendChild(el);
-      });
-    }
-
-    function pickRandom(arr){return arr[Math.floor(Math.random()*arr.length)];}
-
-    function refreshRandom(){
-      document.getElementById('randomArticle').textContent = pickRandom(articles);
-      document.getElementById('randomQuote').textContent = '“' + pickRandom(quotes) + '”';
-    }
-
-    function startProgram(name){alert('Запуск програми: ' + name);}
-
-    function openSection(id){
-      alert('Відкриття розділу: ' + id + '. У реальному додатку це відкриє відповідну сторінку.');
-    }
-
-    // ініціалізація
-    document.getElementById('nowTime').textContent = now();
-    renderReminders(); renderProgram(); renderExercises(); refreshRandom();
-
-    // оновлюємо час та рандом кожні 60 секунд
-    setInterval(()=>{document.getElementById('nowTime').textContent = now();},60000);
-    setInterval(refreshRandom, 30000);
-  </script>
 </body>
 </html>

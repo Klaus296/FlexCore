@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registration</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2179616395540389"crossorigin="anonymous"></script>
+
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #e0e7ff, #c3dafe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    #enter-btn {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #6366f1;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease;
+      z-index: 10;
+    }
+
+    #enter-btn:hover {
+      background-color: #4f46e5;
+    }
+
+    #register-form {
+      width: 100%;
+      max-width: 420px;
+      padding: 1rem;
+    }
+
+    #registerForm {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #registerForm:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 0.9rem;
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    input[type="submit"]:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+    }
+
+    input[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    /* 📱 Адаптивность */
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      #registerForm {
+        padding: 1.5rem;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      select {
+        font-size: 0.9rem;
+      }
+
+      input[type="submit"] {
+        font-size: 0.95rem;
+      }
+
+      #enter-btn {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a id="enter-btn" href="/enter">Enter</a>
+  <div id="register-form">
+    <form action="/enter" method="POST" id="registerForm">
+      <input name="user-email" type="text" placeholder="Email" required />
+      <input name="user-password" type="text" placeholder="Password" required />
+      <input type="submit" href="/chat" name="register" id="register" value="Register" />
+    </form>
+  </div>
+</body>
+</html>

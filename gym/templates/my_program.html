@@ -3,13 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Program</title>
+    <title>Моя программа</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: #eee;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 80%;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .output {
+            background: #1b1b1b;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            white-space: pre-wrap; /* ← сохраняет переносы и делает отступы */
+            word-wrap: break-word;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
 </head>
 <body>
-    <h3>My program</h3>
+    <div class="container">
+        <h3>Моя программа</h3>
 
-    <div>
-        {{ program | safe }}
+        <div class="output">
+            {{ program | safe }}
+        </div>
     </div>
 </body>
 </html>

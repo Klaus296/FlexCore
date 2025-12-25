@@ -21,7 +21,6 @@
       <h3 id="today">Сьогодні: </h3>
     </div>
   </header>
-
   <div class="flex flex-1 pt-20 pb-20 w-full mx-auto px-4 bg-neutral-900 text-neutral-200">
     <main class="flex-1 max-w-3xl mx-auto space-y-6" id="recomendations">
 
@@ -30,7 +29,7 @@
           class="rounded-2xl w-full object-cover shadow-xl">
 
 
-      <div class="bg-neutral-800 rounded-2xl p-6 shadow-xl border border-neutral-700">
+      <div onclick="window.location.href='/program'" class="bg-neutral-800 rounded-2xl p-6 shadow-xl border border-neutral-700">
         <h2 class="text-xl font-semibold mb-3 text-amber-400 tracking-wide">Тренування</h2>
 
         <div class="text-base leading-relaxed line-clamp-3">
@@ -41,14 +40,12 @@
           alt="Gym"
           class="rounded-2xl w-full object-cover shadow-xl">
 
-      <div class="bg-neutral-800 rounded-2xl p-6 shadow-xl border border-neutral-700">
+      <div onclick="window.location.href='/food'" class="bg-neutral-800 rounded-2xl p-6 shadow-xl border border-neutral-700">
         <h2 class="text-xl font-semibold mb-3 text-green-400 tracking-wide">Харчування</h2>
 
         <div class="text-base leading-relaxed line-clamp-3">
           {{food}}
         </div>
-      </div>
-
     </main>
   </div>
 
@@ -102,6 +99,7 @@
   <script>
     const today = new Date();
     document.getElementById("today").innerHTML = today.toLocaleDateString('uk-UA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    
   </script>
 
 </body>

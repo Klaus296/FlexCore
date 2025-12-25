@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+
+    <form class="gym-form" action="/create" method="POST">
+        <h1>CREATE WORKOUT</h1>
+
+        <input type="text" id="name" placeholder="Workout name" name="name" required>
+
+        <textarea id="description" name="description" placeholder="Workout description" required></textarea>
+
+        <button type="submit">SAVE</button>
+    </form>
+
+</body>
+</html>

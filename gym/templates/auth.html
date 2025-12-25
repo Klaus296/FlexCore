@@ -4,14 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Registration</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2179616395540389"crossorigin="anonymous"></script>
-
 
   <style>
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
+      font-family: Inter, sans-serif;
       background: linear-gradient(135deg, #e0e7ff, #c3dafe);
       display: flex;
       justify-content: center;
@@ -19,6 +16,35 @@
       min-height: 100vh;
     }
 
+    #registerForm {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.1);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+    }
+
+    input[type="submit"] {
+      background: #6366f1;
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #enter-btn {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+      }
     #enter-btn {
       position: fixed;
       top: 1rem;
@@ -38,105 +64,66 @@
     #enter-btn:hover {
       background-color: #4f46e5;
     }
-
-    #register-form {
-      width: 100%;
-      max-width: 420px;
-      padding: 1rem;
-    }
-
-    #registerForm {
-      background: white;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    #registerForm:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    }
-
-    input[type="text"],
-    input[type="password"],
-    select {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #d1d5db;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    input[type="text"]:focus,
-    input[type="password"]:focus,
-    select:focus {
-      outline: none;
-      border-color: #6366f1;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-    }
-
-    input[type="submit"] {
-      width: 100%;
-      padding: 0.9rem;
-      background: #6366f1;
-      color: white;
-      border: none;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    input[type="submit"]:hover {
-      background: #4f46e5;
-      transform: translateY(-2px);
-    }
-
-    input[type="submit"]:active {
-      transform: translateY(0);
-    }
-
-    /* 📱 Адаптивность */
-    @media (max-width: 600px) {
-      body {
-        padding: 1rem;
-      }
-
-      #registerForm {
-        padding: 1.5rem;
-      }
-
-      input[type="text"],
-      input[type="password"],
-      select {
-        font-size: 0.9rem;
-      }
-
-      input[type="submit"] {
-        font-size: 0.95rem;
-      }
-
-      #enter-btn {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.8rem;
-      }
-    }
   </style>
 </head>
-<body>
-  <a id="enter-btn" href="/enter">Enter</a>
-  <div id="register-form">
-    <form action="/" method="POST" id="registerForm">
-      <input name="user-name" type="text" placeholder="Username" required />
-      <input name="user-email" type="text" placeholder="Email" required />
-      <input name="user-password" type="text" placeholder="Password" required />
 
-      <input type="submit" href="/chat" name="register" id="register" value="Register" />
-    </form>
-  </div>
+<body>
+<a id="enter-btn" href="/enter">Enter</a>
+<form method="post" id="registerForm">
+  <input id="user-name" name="user-name" type="text" placeholder="Username" required>
+  <input id="user-email" name="user-email" type="email" placeholder="Email" required> <!-- Изменил type на email -->
+  <input id="user-password" name="user-password" type="password" placeholder="Password" required>
+  <input type="submit" value="Register">
+</form>
+
+<script type="module">
+  // Проверяем, существует ли файл cookies.js
+  // Убедитесь, что файл находится по пути /templates/cookies.js
+  import { setCookie, getCookie } from '/templates/cookies.js';
+  
+  
+  
+  document.getElementById("registerForm").addEventListener("submit", function (e) {
+    e.preventDefault(); 
+
+    const username = document.getElementById("user-name").value.trim();
+    const email = document.getElementById("user-email").value.trim();
+    const password = document.getElementById("user-password").value;
+
+    // Простая валидация
+    if (!username || !email || !password) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    // Проверка email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
+    // Проверка длины пароля
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
+
+    // Сохраняем в куки
+    setCookie("username", username);
+    setCookie("email", email);
+    alert(getCookie("username"));
+    alert(getCookie("email"));
+    // ВНИМАНИЕ: Не храните пароли в куках! Это небезопасно!
+
+    console.log("Registration successful!");
+    console.log("Username:", username);
+    console.log("Email:", email);
+
+    // Переход после регистрации
+    window.location.href = "/categories";
+  });
+</script>
+
 </body>
 </html>

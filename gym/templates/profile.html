@@ -64,11 +64,16 @@
 <body>
 
     <div class="card">
+        <button onclick='window.location.href="/home"' style='background-color:red; position:absolute; right:0; color:white;'>На головну</button>
+
         <h2>Профіль</h2>
 
         <div class="field">
             <strong>Ім'я:</strong> {{ name }}
         </div>
+        <form action="/delete_account" method="post">
+            <button style="background-color: red; color: white; width:40%; height: 3vh;">Видалити аккаунт</button>
+        </form>
     </div>
 
 </body>

@@ -240,6 +240,8 @@ p{{margin:0 0 12px;color:#ccc}}
 button{{background:#5c6cff;border:0;color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer}}
 </style>
 <button onclick='window.location.href="/tasks"' style='background-color:gold; color:red;'>Техніка до вправ</button>
+<button onclick='window.location.href="/home"' style='background-color:red; position:absolute; right:0; color:white;'>На головну</button>
+
 <div class="exercise" onclick="window.location.href='/create'" id="add_program" style="position:fixed;right:24px;bottom:24px;width:40px;height:40px;border-radius:50%;background:#2ecc71;color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:600;box-shadow:0 10px 25px rgba(0,0,0,.35);cursor:pointer;">+</div>
 
 {''.join(f"<div class=card><h2>{i[1] or 'Без назви'}</h2><p>{i[2]}</p><button onclick=\"saveProgram('{i[2].replace(chr(39), chr(92)+chr(39))}', this)\">Зробити моєю програмою</button></div>" for i in content)}
@@ -262,7 +264,29 @@ function saveProgram(program, button) {{
 @app.route("/tasks", methods=["GET", "POST"])
 def tasks():
     return render_template("index.html")
+@app.route("/delete_account", methods=["POST"])
+def delete_account():
+    if "name" not in session:
+        return redirect(url_for("index"))
 
+    name = session["name"]
+
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute(
+        "DELETE FROM users WHERE name = ?",
+        (name,)
+    )
+    conn.commit()
+    conn.close()
+
+    session.clear()
+
+    resp = make_response(redirect(url_for("index")))
+    resp.set_cookie("username", "", expires=0)
+    resp.set_cookie("email", "", expires=0)
+
+    return resp
 @app.route("/enter", methods=["GET", "POST"])
 def enter():
     if request.method == "POST":

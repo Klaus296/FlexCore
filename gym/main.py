@@ -12,20 +12,37 @@ DB_PATH = "chat.db"
 DB_PATH2 = "data.db"
 def init_db():
     conn = sqlite3.connect(DB_PATH)
-    conn2 = sqlite3.connect(DB_PATH2)
     cur = conn.cursor()
-    cur2 = conn2.cursor()
     cur.execute("""
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,password TEXT,email TEXT,type TEXT,
-            age INTEGER,weight INTEGER,height INTEGER,target TEXT,program TEXT,food TEXT)
-    """)
-    cur2.execute("""
-        CREATE TABLE IF NOT EXISTS exercises (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,description TEXT)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            password TEXT,
+            email TEXT,
+            type TEXT,
+            age INTEGER,
+            weight INTEGER,
+            height INTEGER,
+            target TEXT,
+            program TEXT,
+            food TEXT
+        )
     """)
     conn.commit()
     conn.close()
+
+    conn2 = sqlite3.connect(DB_PATH2)
+    cur2 = conn2.cursor()
+    cur2.execute("""
+        CREATE TABLE IF NOT EXISTS exercises (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            description TEXT
+        )
+    """)
+    conn2.commit()
+    conn2.close()
+
 
 init_db()
 def show_programs():
@@ -242,7 +259,7 @@ h2{{margin:0 0 8px;color:#7aa2ff}}
 .text{{white-space:pre-wrap;line-height:1.6;color:#ddd}}
 button{{margin-top:12px;padding:10px 14px;border:0;border-radius:10px;background:#5c6cff;color:#fff}}
 </style>
-
+<button onclick="window.location.href='/create'">+</button>
 <button onclick="location.href='/home'" style="float:right;background:red">На головну</button>
 <button onclick="location.href='/tasks'" style="background:gold;color:black">Техніка</button>
 

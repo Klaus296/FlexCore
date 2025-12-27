@@ -195,23 +195,28 @@ def chat():
 @app.route("/save_program", methods=["POST"])
 def save_program():
     if "name" not in session:
-        return {"status": "error"}, 403
+        return {"status":"error"}, 403
 
-    data = request.get_json()
-    program = data.get("program")
+    pid = request.get_json().get("program_id")
 
-    session["program"] = program
+    conn = sqlite3.connect(DB_PATH2)
+    text = conn.execute(
+        "SELECT description FROM exercises WHERE id=?",(pid,)
+    ).fetchone()[0]
+    conn.close()
+
+    session["program"] = text
 
     conn = sqlite3.connect(DB_PATH)
-    cur = conn.cursor()
-    cur.execute(
-        "UPDATE users SET program = ? WHERE name = ?",
-        (program, session["name"])
+    conn.execute(
+        "UPDATE users SET program=? WHERE name=?",
+        (text, session["name"])
     )
     conn.commit()
     conn.close()
 
-    return {"status": "ok"}
+    return {"status":"ok"}
+
 
 @app.route("/program",methods=["GET", "POST"])
 def program():
@@ -225,42 +230,48 @@ def profile():
 @app.route("/food", methods=["GET", "POST"])
 def food():
     return render_template("my_food.html", eat=session.get("food"))
-@app.route("/exersices", methods=["GET","POST"])
+@app.route("/exersices")
 def sport():
-    print(show_programs())
-    content = show_programs()
+    programs = show_programs()
     return f"""
-<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-body{{margin:0;padding:20px;background:#000;color:#fff;font-family:system-ui}}
-
+body{{background:#000;color:#fff;font-family:system-ui;padding:16px}}
 .card{{background:#111;padding:16px;border-radius:14px;margin-bottom:16px}}
-h2{{margin:0 0 8px;font-size:18px}}
-p{{margin:0 0 12px;color:#ccc}}
-button{{background:#5c6cff;border:0;color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer}}
+h2{{margin:0 0 8px;color:#7aa2ff}}
+.text{{white-space:pre-wrap;line-height:1.6;color:#ddd}}
+button{{margin-top:12px;padding:10px 14px;border:0;border-radius:10px;background:#5c6cff;color:#fff}}
 </style>
-<button onclick='window.location.href="/tasks"' style='background-color:gold; color:red;'>Техніка до вправ</button>
-<button onclick='window.location.href="/home"' style='background-color:red; position:absolute; right:0; color:white;'>На головну</button>
 
-<div class="exercise" onclick="window.location.href='/create'" id="add_program" style="position:fixed;right:24px;bottom:24px;width:40px;height:40px;border-radius:50%;background:#2ecc71;color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:600;box-shadow:0 10px 25px rgba(0,0,0,.35);cursor:pointer;">+</div>
+<button onclick="location.href='/home'" style="float:right;background:red">На головну</button>
+<button onclick="location.href='/tasks'" style="background:gold;color:black">Техніка</button>
 
-{''.join(f"<div class=card><h2>{i[1] or 'Без назви'}</h2><p>{i[2]}</p><button onclick=\"saveProgram('{i[2].replace(chr(39), chr(92)+chr(39))}', this)\">Зробити моєю програмою</button></div>" for i in content)}
+{''.join(
+    f'''
+    <div class="card">
+        <h2>{p[1]}</h2>
+        <div class="text">{p[2]}</div>
+        <button onclick="saveProgram({p[0]}, this)">Зробити моєю</button>
+    </div>
+    '''
+    for p in programs
+)}
+
 <script>
-function saveProgram(program, button) {{
+function saveProgram(id, btn) {{
     fetch('/save_program', {{
-        method: 'POST',
-        headers: {{'Content-Type': 'application/json'}},
-        body: JSON.stringify({{program: program}})
-    }}).then(r => r.json()).then(data => {{
-        if(data.status === 'ok') {{
-            button.textContent = 'Збережено!';
-            button.disabled = true;
-            setTimeout(() => window.location.href = '/home', 1000);
-        }}
+        method:'POST',
+        credentials:'same-origin',
+        headers:{{'Content-Type':'application/json'}},
+        body:JSON.stringify({{program_id:id}})
+    }}).then(r=>r.json()).then(d=>{{
+        if(d.status==='ok'){{btn.textContent='Збережено';btn.disabled=true}}
     }});
 }}
 </script>
 """
+
+
 @app.route("/tasks", methods=["GET", "POST"])
 def tasks():
     return render_template("index.html")

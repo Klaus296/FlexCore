@@ -10,16 +10,17 @@ body {
   border-radius:12px;
   padding:10px 12px;
   margin-bottom:12px;
+  text-align: center;
 }
 
 .title {
-  font-size:15px;
+  font-size: 1.2em;
   font-weight:600;
   margin-bottom:4px;
 }
 
 .subtitle {
-  font-size:12px;
+  font-size:1em;
   color:#aaa;
   margin-bottom:6px;
 }
